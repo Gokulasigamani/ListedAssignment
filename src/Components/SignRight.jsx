@@ -1,10 +1,33 @@
+import { useState } from 'react';
 import Google from "../assets/google.png";
 import mac from "../assets/mac.png";
 import IconSec from "./IconSec";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from "../assets/Logo.png";
 
 function SignRight() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate(); // Initialize navigate function
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    
+    // Basic validation
+    let formErrors = {};
+    if (!email) formErrors.email = 'Email is required';
+    if (!password) formErrors.password = 'Password is required';
+    
+    if (Object.keys(formErrors).length === 0) {
+      // Navigate to the dashboard page if no errors
+      navigate('/dashboard');
+    } else {
+      // Set error messages
+      setErrors(formErrors);
+    }
+  };
+
   return (
     <>
       {/* Navigation bar for max-sm screens */}
@@ -33,23 +56,40 @@ function SignRight() {
             </div>
           </div>
 
-          <div className="bg-white w-[400px] py-8 m-auto mt-[30px] rounded-3xl max-sm:w-[95%] max-sm:ml-1">
-            <div className="w-[350px] h-[100%] m-auto">
-              <div>
-                <label htmlFor="email" className="text-[14px] font-medium">Email address</label>
-                <input type="email" className="w-full mt-2 bg-neutral-200 px-2 py-2 rounded-lg outline-none" />
-              </div>
+          <div className="bg-white w-[400px] py-8 m-auto mt-[30px] rounded-3xl max-sm:w-[95%] max-sm:ml-2">
+            <div className="sm:w-[350px] max-sm:w-[300px] h-[100%] m-auto px-2">
+              <form onSubmit={handleSubmit}>
+                <div>
+                  <label htmlFor="email" className="text-[14px] font-medium">Email address</label>
+                  <input
+                    type="email"
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full mt-2 bg-neutral-200 px-2 py-2 rounded-lg outline-none"
+                  />
+                  {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+                </div>
 
-              <form action="">
                 <div className="mt-5">
-                  <label htmlFor="Password" className="text-[14px] font-medium">Password</label>
-                  <input type="password" className="w-full mt-2 bg-neutral-200 px-2 py-2 rounded-lg outline-none" />
+                  <label htmlFor="password" className="text-[14px] font-medium">Password</label>
+                  <input
+                    type="password"
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full mt-2 bg-neutral-200 px-2 py-2 rounded-lg outline-none"
+                  />
+                  {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
                 </div>
 
                 <h2 className="text-[12px] mt-3 ml-1 text-blue-400 font-medium">Forget Password?</h2>
-                <Link to={'/dashboard'}>
-                  <button className="w-full bg-indigo-500 rounded-lg font-medium text-white py-2 mt-5">Sign in</button>
-                </Link>
+                <button
+                  type="submit"
+                  className="w-full bg-indigo-500 rounded-lg font-medium text-white py-2 mt-5"
+                >
+                  Sign in
+                </button>
               </form>
             </div>
           </div>

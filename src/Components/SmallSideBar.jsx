@@ -4,7 +4,7 @@ import Logo from '../assets/Logo.png';
 function SmallSidebar({ isOpen, toggleSidebar, onUploadClick }) {
   return (
     <div
-      className={`fixed top-0 left-0 h-full w-[250px] bg-white rounded-r-lg transform ${
+      className={`fixed  top-0 left-0 h-full w-[250px] bg-white rounded-r-lg transform ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
       } transition-transform duration-300 ease-in-out z-50`}
     >
