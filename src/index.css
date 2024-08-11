@@ -1,0 +1,107 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*
+{
+    margin: 0;
+
+}
+
+body{
+    overflow-x: hidden;
+    font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+/* Default light mode variables */
+:root {
+  --background-color: #f8f9fa; /* Light gray */
+  --primary-color: #4f46e5; /* Indigo 700 */
+  --secondary-color: #6366f1; /* Indigo 500 */
+  --text-color: #333333; /* Dark text */
+  --text-color-secondary: #4b5563; /* Slightly lighter text */
+  --input-background-color: #9e9fa0; /* Light gray for inputs */
+  --button-background-color: #4f46e5; /* Indigo 700 */
+  --button-text-color: #ffffff; /* White text */
+  --toggle-background: #ffffff; /* White background for toggle */
+  --toggle-color: #f59e0b; /* Yellow color for the toggle icon */
+}
+
+/* Dark mode variables */
+body.dark-mode {
+  --background-color: #0f131a; /* Dark gray */
+  --primary-color: #1a1a1a; /* Almost black */
+  --secondary-color: #333333; /* Dark gray */
+  --text-color: #e5e7eb; /* Light text */
+  --text-color-secondary: #9ca3af; /* Gray text */
+  --input-background-color: #040404; /* Dark gray for inputs */
+  --button-background-color: #4f46e5; /* Indigo 700 */
+  --button-text-color: #ffffff; /* White text */
+  --toggle-background: #374151; /* Dark gray for toggle */
+  --toggle-color: #fbbf24; /* Yellow color for the toggle icon */
+}
+
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.bg-neutral-200 {
+  background-color: var(--background-color);
+}
+
+.bg-indigo-700 {
+  background-color: var(--primary-color);
+}
+
+.bg-indigo-500 {
+  background-color: var(--secondary-color);
+}
+
+.bg-white {
+  background-color: var(--toggle-background);
+}
+
+.text-white {
+  color: var(--button-text-color);
+}
+
+.text-neutral-400 {
+  color: var(--text-color-secondary);
+}
+
+.text-neutral-500 {
+  color: var(--text-color-secondary);
+}
+
+input[type="email"],
+input[type="password"] {
+  background-color: var(--input-background-color);
+  color: var(--text-color);
+}
+
+button {
+  background-color: var(--button-background-color);
+  color: var(--button-text-color);
+}
+
+.toggle-icon {
+  color: var(--toggle-color);
+}
+
+.bg-indigo-700 {
+  background-color: #4f46e5; /* Indigo 700 */
+}
+
+.bg-indigo-500 {
+  background-color: #6366f1; /* Indigo 500 */
+}
+.logo
+{
+  background-color: white;
+  color: black;
+}
