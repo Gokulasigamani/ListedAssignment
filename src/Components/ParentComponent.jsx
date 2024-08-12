@@ -3,16 +3,16 @@ import TableComponent from './TableComponent'; // Adjust the import path as need
 import FileUpload from './FileUpload'; // Adjust the import path as needed
 
 const ParentComponent = () => {
-  const [isUploaded, setIsUploaded] = useState(false);
+  const [tableData, setTableData] = useState([]);
 
-  const handleUploadComplete = () => {
-    setIsUploaded(true);
+  const handleUploadComplete = (extractedData) => {
+    setTableData(extractedData);
   };
 
   return (
     <div>
       <FileUpload onUploadComplete={handleUploadComplete} />
-      {isUploaded && <TableComponent />}
+      {tableData.length > 0 && <TableComponent data={tableData} />}
     </div>
   );
 };

@@ -1,24 +1,92 @@
 import { useState } from 'react';
+import Papa from 'papaparse';
 
 const FileUpload = ({ onUploadComplete }) => {
   const [file, setFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [isUploaded, setIsUploaded] = useState(false);
+  const [fileType, setFileType] = useState('');
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+
+    // Set heading based on file type
+    if (selectedFile) {
+      const type = selectedFile.type;
+      if (type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || type === 'application/vnd.ms-excel') {
+        setFileType('Excel File');
+      } else if (type === 'text/csv') {
+        setFileType('CSV File');
+      } else if (type === 'application/json') {
+        setFileType('JSON File');
+      } else if (type === 'text/plain') {
+        setFileType('Text File');
+      } else {
+        setFileType('Unsupported File Type');
+      }
+    }
     setIsUploaded(false);
   };
 
   const handleUpload = () => {
     if (file) {
       setIsUploading(true);
-      setTimeout(() => {
+
+      if (fileType === 'Excel File') {
+        Papa.parse(file, {
+          complete: (results) => {
+            const data = results.data.map((row, index) => ({
+              sno: index + 1,
+              link: row[0], // Adjust based on CSV structure
+              prefix: row[1], // Adjust based on CSV structure
+              tags: row.slice(2) // Adjust based on CSV structure
+            }));
+
+            setIsUploading(false);
+            setIsUploaded(true);
+            onUploadComplete(data);
+          },
+          header: false
+        });
+      } else if (fileType === 'CSV File') {
+        Papa.parse(file, {
+          complete: (results) => {
+            const data = results.data.map((row, index) => ({
+              sno: index + 1,
+              link: row[0], // Adjust based on CSV structure
+              prefix: row[1], // Adjust based on CSV structure
+              tags: row.slice(2) // Adjust based on CSV structure
+            }));
+
+            setIsUploading(false);
+            setIsUploaded(true);
+            onUploadComplete(data);
+          },
+          header: false
+        });
+      } else if (fileType === 'JSON File') {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const jsonData = JSON.parse(e.target.result);
+          setIsUploading(false);
+          setIsUploaded(true);
+          onUploadComplete(jsonData);
+        };
+        reader.readAsText(file);
+      } else if (fileType === 'Text File') {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const textData = e.target.result;
+          setIsUploading(false);
+          setIsUploaded(true);
+          onUploadComplete(textData);
+        };
+        reader.readAsText(file);
+      } else {
+        console.log('Unsupported file type');
         setIsUploading(false);
-        setIsUploaded(true);
-        console.log('File uploaded:', file.name);
-        onUploadComplete(); // Notify parent component
-      }, 2000);
+      }
     } else {
       console.log('No file selected');
     }
@@ -26,6 +94,7 @@ const FileUpload = ({ onUploadComplete }) => {
 
   const handleRemove = () => {
     setFile(null);
+    setFileType('');
     setIsUploaded(false);
   };
 
@@ -34,12 +103,7 @@ const FileUpload = ({ onUploadComplete }) => {
       <div className="border-2 border-dashed border-gray-300 py-14 rounded-lg mb-4 relative min-h-[100px] flex items-center justify-center">
         {isUploaded ? (
           <div>
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/337/337946.png"
-              alt="Excel Icon"
-              className="w-12 mb-2 mx-auto"
-            />
-            <p>{file.name}</p>
+            <p>{file.name} - {fileType}</p>
             <button
               onClick={handleRemove}
               className="text-red-500 mt-2 bg-transparent hover:underline decoration-clone"
@@ -99,6 +163,12 @@ const FileUpload = ({ onUploadComplete }) => {
           @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+          }
+          
+          /* Ensure dropdown background is white */
+          .dropdown-menu {
+            background-color: white;
+            /* Other styles for dropdown */
           }
         `}
       </style>

@@ -22,8 +22,8 @@ const SmallFileUpload = ({ onUploadComplete }) => {
   };
 
   return (
-    <div className="max-w-[300px] mx-auto mt-8 text-center">
-      <div className="border-2 border-dashed border-gray-300 py-10 rounded-lg mb-4 relative min-h-[100px] flex items-center justify-center">
+    <div className="max-w-[300px] mx-auto mt-16 -z-10 text-center">
+      <div className="border-2 border-dashed bg-white border-gray-300 py-10 rounded-lg mb-4 relative min-h-[100px] flex items-center justify-center">
         <label className="cursor-pointer text-blue-500 hover:underline">
           <span>Choose file</span>
           <input

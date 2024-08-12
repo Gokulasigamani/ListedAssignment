@@ -2,35 +2,41 @@ import { useState } from 'react';
 import Google from "../assets/google.png";
 import mac from "../assets/mac.png";
 import IconSec from "./IconSec";
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Logo from "../assets/Logo.png";
+import { GoogleLogin } from '@react-oauth/google';
 
 function SignRight() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
-  const navigate = useNavigate(); // Initialize navigate function
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     
-    // Basic validation
     let formErrors = {};
     if (!email) formErrors.email = 'Email is required';
     if (!password) formErrors.password = 'Password is required';
     
     if (Object.keys(formErrors).length === 0) {
-      // Navigate to the dashboard page if no errors
       navigate('/dashboard');
     } else {
-      // Set error messages
       setErrors(formErrors);
     }
   };
 
+  const handleGoogleSuccess = (response) => {
+    console.log('Google Sign-In Successful:', response);
+    navigate('/dashboard');
+  };
+
+  const handleGoogleError = () => {
+    console.error('Google Sign-In Failed');
+  };
+
   return (
     <>
-      {/* Navigation bar for max-sm screens */}
       <nav className="hidden max-sm:flex w-full bg-indigo-500 p-4 fixed top-0 left-0 z-10">
         <div className="flex items-center gap-2">
           <img src={Logo} className="w-8 h-8" alt="Logo" />
@@ -46,8 +52,11 @@ function SignRight() {
 
             <div className="flex gap-5 mt-7 max-sm:flex-row max-sm:gap-2 max-sm:ml-1">
               <div className="w-[300px] h-[35px] rounded-2xl bg-white flex gap-2 items-center justify-center">
-                <img src={Google} className="w-[15px]" alt="Google logo" />
-                <p className="text-neutral-400 text-[12px]">Sign in with Google</p>
+                <GoogleLogin
+                  onSuccess={handleGoogleSuccess}
+                  onError={handleGoogleError}
+                  className="bg-transparent rounded-2xl"
+                />
               </div>
               <div className="w-[300px] h-[35px] rounded-2xl bg-white flex gap-2 items-center justify-center">
                 <img src={mac} className="w-[15px]" alt="Apple logo" />

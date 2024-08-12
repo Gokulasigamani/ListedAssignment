@@ -57,15 +57,19 @@ function SideBar() {
           { icon: "bi-calendar4-week", text: "Schedule" },
           { icon: "bi-calendar-month", text: "Calendar" },
           { icon: "bi-bell-fill", text: "Notifications" },
-          { icon: "bi-gear-fill", text: "Settings" }
+          { icon: "bi-gear-fill", text: "Settings" },
         ].map((item, index) => (
           <div
             key={index}
             className={`flex gap-4 items-center transition-all duration-300 ease-in-out ${
               WidthAdjust ? "opacity-100 translate-x-0" : "opacity-100 translate-x-0"
-            }`}
+            } ${WidthAdjust && item.text === "Upload" ? "bg-indigo-600 text-white py-0 px-4 rounded-lg" : ""}`}
           >
-            <i className={`bi ${item.icon} text-neutral-400`}></i>
+            <i
+              className={`bi ${item.icon} ${
+                WidthAdjust && item.text === "Upload" ? "text-white" : "text-neutral-400"
+              }`}
+            ></i>
             <h2
               className={`font-medium text-[12px] transition-opacity transform duration-300 ease-in-out ${
                 WidthAdjust ? "opacity-100 translate-x-0" : "opacity-0 translate-x-[-20px]"
@@ -76,12 +80,10 @@ function SideBar() {
           </div>
         ))}
       </div>
-      
-      <div className="absolute bottom-10 ml-6" >
-      <ThemeToggle/>
-      </div>
-      
 
+      <div className="absolute bottom-10 ml-6">
+        <ThemeToggle />
+      </div>
     </div>
   );
 }
